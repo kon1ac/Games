@@ -1,142 +1,109 @@
-﻿
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters;
+using System;
 
-namespace Games;
-class Games
+namespace ConsoleApp
 {
-    static void num_detect()
+    class Program
     {
-
-        Console.WriteLine("Введите число, что бы узнать, на что оно делится");
-        Console.Write("Вводи циферку, друг:");
-
-        int num = Convert.ToInt16(Console.ReadLine());
-        for (int numer = 1; numer <= num; numer++)
+        static void Main(string[] args)
         {
-            if (num % numer == 0)
+            int choice;
+
+            do
             {
-                Console.Write(numer + "\t");
-            }
-        }
-        Console.WriteLine();
-    }
+                Console.WriteLine("Выберите программу:");
+                Console.WriteLine("1. Игра \"Угадай число\"");
+                Console.WriteLine("2. Таблица умножения");
+                Console.WriteLine("3. Вывод делителей числа");
+                Console.WriteLine("0. Выйти");
 
+                choice = Convert.ToInt32(Console.ReadLine());
 
-
-    static void Games_num()
-    {
-        // Написание игры угадай число отдельный файл как заготовка для полноценного проекта 
-
-
-
-
-
-        Console.WriteLine("Добро пожаловать в игру 'В гостях у Пилы'");
-        Console.WriteLine("Вы должны угадать число от 0 до 100");
-
-        Random VALUE = new Random();
-        int num = VALUE.Next(0, 100);
-        
-
-
-        try
-        {
-
-            while (true)
-            {
-                Console.Write("Вводи свою мысль, дорогой друг: "); string command = Console.ReadLine();
-
-                int com_ = Convert.ToInt16(command);
-               
-                
-
-
-                    if (com_ == num)
-                    {
-                        Console.WriteLine("Джекпот, друг, ты выиграл миллион!");
-                        break;
-                    }
-                    else if (num < com_)
-                    {
-                        Console.WriteLine("Не угадал, делай меньше!");
-                        
-                        continue;
-                    }
-                    else if (num > com_)
-                    {
-                        Console.WriteLine("Не угадал, делай больше");
-                        
-                        continue;
-                    }
-                
-                
-            }
-        }
-        catch
-        {
-            Console.WriteLine("Ошибка, друг, твое значение неправильное");
-        }
-
-
-    }
-
-
-
-
-    static void Tabl_um()
-    {
-        string[,] tabl = new string[10, 10];
-        for (int row = 0; row <= 10; row++)
-        {
-            for (int column = 0; column <= 10; column++)
-            {
-                Console.Write((column + "*" + row + "=" + (column * row)) + "\t");
-            }
-            Console.WriteLine();
-        }
-    }
-
-    static void Main()
-    {
-        Boolean flag = true;
-        while (flag)
-
-        {
-            Console.WriteLine();
-            Console.WriteLine("Ты в главном меню, выбирай режим!");
-            Console.WriteLine("1. Игра угадай число");
-            Console.WriteLine("2. Таблица умножения");
-            Console.WriteLine("3. Вывод делителей числа");
-            Console.WriteLine("4. Выход");
-            Console.Write("Вводи режим: ");
-            try
-            {
-                string command = Console.ReadLine();
-                int com_ = Convert.ToInt16(command);
-                switch (com_)
+                switch (choice)
                 {
                     case 1:
-
-                        Games_num();
+                        PlayGuessNumber();
                         break;
                     case 2:
-                        Tabl_um();
+                        PrintMultiplicationTable();
                         break;
                     case 3:
-                        num_detect();
+                        PrintDivisors();
                         break;
-                    case 4:
-                        flag = false;
+                    case 0:
+                        Console.WriteLine("Выход из программы");
+                        break;
+                    default:
+                        Console.WriteLine("Неверный ввод, пробуй снова");
                         break;
                 }
 
-            }
-            catch
+            } while (choice != 0);
+        }
+
+        public static void PlayGuessNumber()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 101);
+            int guess;
+
+            Console.WriteLine("Игра \"В гостях у ПИлы\" начинается!");
+            do
             {
-                Console.WriteLine("Ты что-та сделал не правильно");
+                Console.Write("Введите число: ");
+                guess = Convert.ToInt32(Console.ReadLine());
+
+                if (guess == randomNumber)
+                {
+                    Console.WriteLine("Поздравляю, ты не умер!");
+                }
+                else if (guess < randomNumber)
+                {
+                    Console.WriteLine("Моё число больше, чем ты думаешь");
+                }
+                else
+                {
+                    Console.WriteLine("Моё число меньше, чем ты думаешь");
+                }
+            } while (guess != randomNumber);
+        }
+
+        public static void PrintMultiplicationTable()
+        {
+            int size = 10;
+            int[,] multiplicationTable = new int[size, size];
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    multiplicationTable[i, j] = (i + 1) * (j + 1);
+                }
+            }
+
+            Console.WriteLine("Таблица умножения:");
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    Console.Write(multiplicationTable[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public static void PrintDivisors()
+        {
+            Console.Write("Введите число: ");
+            int number = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Делители числа " + number + ":");
+            for (int i = 1; i <= number; i++)
+            {
+                if (number % i == 0)
+                {
+                    Console.WriteLine(i);
+                }
             }
         }
     }
-
 }
